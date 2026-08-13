@@ -1,0 +1,1 @@
+export { AddAcademicRecord } from './AcademicRecordList';

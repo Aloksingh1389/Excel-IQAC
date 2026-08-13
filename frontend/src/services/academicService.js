@@ -1,0 +1,1 @@
+export { academicService } from './achievementService';

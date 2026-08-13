@@ -1,0 +1,76 @@
+export const REPORT_TEMPLATES = [
+  {
+    id: 'rep_personal_profile',
+    title: 'Comprehensive Faculty Dossier & Profile Report',
+    category: 'Personal',
+    description: 'Detailed curriculum vitae, educational credentials, teaching records, publications, research, and FDP history.',
+    availableFor: ['STAFF', 'HOD', 'DEAN', 'IQAC_HEAD', 'DIRECTOR'],
+  },
+  {
+    id: 'rep_academic_perf',
+    title: 'Department Academic & Pass Percentage Report',
+    category: 'Academic',
+    description: 'Semester-wise course outcome attainment, pass percentage, student strength, and faculty workload analysis.',
+    availableFor: ['STAFF', 'HOD', 'DEAN', 'IQAC_HEAD', 'DIRECTOR'],
+  },
+  {
+    id: 'rep_publication_summary',
+    title: 'Institutional Research & Publication Indexing Report',
+    category: 'Research',
+    description: 'Scopus, SCI, Web of Science, and UGC CARE publication aggregates with citation impact factor breakdown.',
+    availableFor: ['STAFF', 'HOD', 'DEAN', 'IQAC_MEMBER', 'IQAC_HEAD', 'DIRECTOR'],
+  },
+  {
+    id: 'rep_fdp_training',
+    title: 'Faculty Development & Training Compliance Report',
+    category: 'Faculty',
+    description: 'Faculty participation in ATAL, NBA, AICTE, and national level workshops, STTPs, and training programs.',
+    availableFor: ['STAFF', 'HOD', 'DEAN', 'IQAC_HEAD', 'DIRECTOR'],
+  },
+  {
+    id: 'rep_student_achieve',
+    title: 'Student Achievements & Hackathon Honors Ledger',
+    category: 'Student',
+    description: 'National and international student medals, hackathons, sports, and technical competition victories.',
+    availableFor: ['STAFF', 'HOD', 'DEAN', 'IQAC_HEAD', 'DIRECTOR'],
+  },
+  {
+    id: 'rep_department_annual',
+    title: 'Annual Quality Assurance Cell (AQAR) Department Dossier',
+    category: 'Institutional',
+    description: 'Complete 360-degree quality metrics for departmental performance, NAAC criteria alignment, and audits.',
+    availableFor: ['HOD', 'DEAN', 'IQAC_MEMBER', 'IQAC_HEAD', 'DIRECTOR'],
+  },
+  {
+    id: 'rep_executive_quality',
+    title: 'Directorate Executive Institutional Quality Index',
+    category: 'Executive',
+    description: 'High-level executive benchmarking across all departments, placement rates, research grants, and NAAC readiness.',
+    availableFor: ['IQAC_HEAD', 'DIRECTOR'],
+  },
+];
+
+export const INITIAL_GENERATED_REPORTS = [
+  {
+    id: 'gen_rep_001',
+    title: 'Annual Department Quality Report - CSE',
+    academicYear: '2026 - 2027',
+    department: 'Computer Science and Engineering',
+    generatedBy: 'Dr. Ramesh Sharma (HOD)',
+    generatedAt: '2026-08-01 14:30',
+    status: 'READY',
+    fileSize: '3.4 MB',
+    format: 'PDF',
+  },
+  {
+    id: 'gen_rep_002',
+    title: 'Institutional Research & Publication Indexing (All Depts)',
+    academicYear: '2026 - 2027',
+    department: 'All Departments',
+    generatedBy: 'Dr. M. S. Swaminathan (IQAC Head)',
+    generatedAt: '2026-08-05 11:15',
+    status: 'READY',
+    fileSize: '5.1 MB',
+    format: 'PDF',
+  },
+];
