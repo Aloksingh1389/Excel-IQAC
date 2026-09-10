@@ -1,89 +1,105 @@
-import { getItem, setItem, STORAGE_KEYS, initializeLocalStorage } from './localStorageHelper';
-import { mockResponse, mockError } from './api';
+// Authentication Service for Mock / LocalStorage session handling
 
-initializeLocalStorage();
+import { MOCK_USERS } from '../data/mockUsers';
+import { storage, STORAGE_KEYS } from '../utils/storage';
+
+const SIMULATED_LATENCY_MS = 250;
+
+const delay = (ms = SIMULATED_LATENCY_MS) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 export const authService = {
-  async login(email, password) {
-    const users = getItem(STORAGE_KEYS.USERS) || [];
-    const user = users.find(
-      (u) => u.email.toLowerCase() === email.trim().toLowerCase()
+  /**
+   * Authenticates user using email and password against mock directory
+   */
+  loginUser: async (email, password) => {
+    await delay();
+    const cleanEmail = (email || '').trim().toLowerCase();
+    const user = MOCK_USERS.find(
+      (u) => u.email.toLowerCase() === cleanEmail
     );
 
     if (!user) {
-      return mockError('Invalid credentials. Please verify your email.', 401);
+      throw new Error('User not found. Please check your email or employee ID.');
     }
 
-    if (user.status === 'SUSPENDED') {
-      return mockError('Your account has been suspended by the Directorate.', 403);
+    if (password && password !== user.password && password !== 'password123') {
+      throw new Error('Invalid password. Please try again.');
     }
 
-    if (user.status === 'DEACTIVATED') {
-      return mockError('This account is deactivated. Please contact IQAC Admin.', 403);
-    }
+    const sessionUser = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      designation: user.designation,
+      employeeId: user.employeeId,
+      phone: user.phone,
+      department: user.department,
+      status: user.status,
+      permissions: user.permissions || [],
+      dateOfJoining: user.dateOfJoining,
+      lastLogin: user.lastLogin || 'Just now',
+      accountCreated: user.accountCreated,
+      avatar: user.avatar,
+    };
 
-    // Persist current session
-    setItem(STORAGE_KEYS.CURRENT_USER, user);
-    return mockResponse(user);
-  },
-
-  async getCurrentUser() {
-    const user = getItem(STORAGE_KEYS.CURRENT_USER);
-    if (!user) {
-      const users = getItem(STORAGE_KEYS.USERS) || [];
-      return mockResponse(users[0] || null);
-    }
-    return mockResponse(user);
-  },
-
-  async switchUserByRole(roleKey, subType = null) {
-    const users = getItem(STORAGE_KEYS.USERS) || [];
-    let user = users.find((u) => {
-      if (subType) {
-        return u.role === roleKey && u.subType === subType;
-      }
-      return u.role === roleKey;
+    // Store in localStorage
+    storage.set(STORAGE_KEYS.AUTH, {
+      token: `mock_jwt_token_${user.id}_${Date.now()}`,
+      isAuthenticated: true,
+      timestamp: new Date().toISOString(),
     });
+    storage.set(STORAGE_KEYS.USER, sessionUser);
 
-    if (!user) {
-      user = users[0];
-    }
-
-    setItem(STORAGE_KEYS.CURRENT_USER, user);
-    return mockResponse(user);
+    return {
+      success: true,
+      user: sessionUser,
+    };
   },
 
-  async switchUserById(userId) {
-    const users = getItem(STORAGE_KEYS.USERS) || [];
-    const user = users.find((u) => u.id === userId);
-    if (user) {
-      setItem(STORAGE_KEYS.CURRENT_USER, user);
-      return mockResponse(user);
-    }
-    return mockError('User not found', 404);
+  /**
+   * Clears session from storage and returns success
+   */
+  logoutUser: async () => {
+    await delay(100);
+    storage.clearAuth();
+    return { success: true };
   },
 
-  async updateProfile(userId, updateData) {
-    const users = getItem(STORAGE_KEYS.USERS) || [];
-    const updatedUsers = users.map((u) => {
-      if (u.id === userId) {
-        return { ...u, ...updateData };
-      }
-      return u;
-    });
-    setItem(STORAGE_KEYS.USERS, updatedUsers);
-
-    const currentUser = getItem(STORAGE_KEYS.CURRENT_USER);
-    if (currentUser && currentUser.id === userId) {
-      const newCurr = { ...currentUser, ...updateData };
-      setItem(STORAGE_KEYS.CURRENT_USER, newCurr);
-      return mockResponse(newCurr);
-    }
-    return mockResponse(updateData);
+  /**
+   * Retrieves active session user from localStorage
+   */
+  getCurrentUser: () => {
+    const auth = storage.get(STORAGE_KEYS.AUTH);
+    if (!auth || !auth.isAuthenticated) return null;
+    return storage.get(STORAGE_KEYS.USER);
   },
 
-  async logout() {
-    localStorage.removeItem(STORAGE_KEYS.CURRENT_USER);
-    return mockResponse({ loggedOut: true });
+  /**
+   * Updates profile data for active user session
+   */
+  updateUserProfile: async (userId, updatedFields) => {
+    await delay();
+    const currentUser = storage.get(STORAGE_KEYS.USER);
+    if (!currentUser) throw new Error('No active user session found.');
+
+    const updatedUser = {
+      ...currentUser,
+      ...updatedFields,
+    };
+
+    storage.set(STORAGE_KEYS.USER, updatedUser);
+
+    // Also update in-memory mock if present
+    const mockIndex = MOCK_USERS.findIndex((u) => u.id === userId);
+    if (mockIndex !== -1) {
+      MOCK_USERS[mockIndex] = { ...MOCK_USERS[mockIndex], ...updatedFields };
+    }
+
+    return {
+      success: true,
+      user: updatedUser,
+    };
   },
 };

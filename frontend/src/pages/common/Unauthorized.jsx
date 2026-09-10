@@ -1,1 +1,1 @@
-export { Unauthorized } from './NotFound';
+export { Unauthorized, NotFound } from './NotFound';

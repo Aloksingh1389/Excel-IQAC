@@ -47,15 +47,32 @@
   outline-offset: 2px;
 }
 
-/* Print styling for institutional reports */
+/* High-Quality Print styling for institutional reports */
 @media print {
+  @page {
+    margin: 1.5cm;
+    size: A4 portrait;
+  }
+
   body {
     background: white !important;
     color: black !important;
   }
+
+  aside,
+  header,
+  nav,
+  button,
   .no-print {
     display: none !important;
   }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+  }
+
   .print-only {
     display: block !important;
   }

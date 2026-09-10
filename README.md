@@ -1,14 +1,14 @@
-# IQAC Management System (Frontend Portal)
+# IQAC Management System — Stage 4: Report Management & Statutory Dossier Generation
 
-A production-grade, comprehensive frontend application for a college **Internal Quality Assurance Cell (IQAC)** and institutional ERP management system. Built with React 19, Vite, Tailwind CSS v4, React Router DOM, Lucide Icons, and Recharts.
+A complete, production-quality Institutional Quality Assurance Cell (**IQAC**) Management and Decision-Support web platform for college **Apex Management (Technical Director & Executive Director/Principal)** built with React 19, Vite, Tailwind CSS, Recharts, Lucide React, and React Router DOM.
 
 ---
 
-## 🚀 Quick Start Instructions
+## 🚀 Quick Launch Instructions
 
 ### Prerequisites
-- **Node.js**: v18.0.0 or higher ([Download Node.js](https://nodejs.org/))
-- **npm**: v9.0.0 or higher (comes with Node.js)
+- **Node.js**: v18.0.0 or higher
+- **npm**: v9.0.0 or higher
 
 ### Option 1: 1-Click Launch (Windows)
 Double-click `start-project.bat` in the root folder, or run:
@@ -16,150 +16,115 @@ Double-click `start-project.bat` in the root folder, or run:
 start-project.bat
 ```
 
-### Option 2: Manual Terminal Commands
+### Option 2: 1-Click Launch (macOS / Linux)
 ```bash
-# 1. Navigate to the frontend directory
+chmod +x start-project.sh
+./start-project.sh
+```
+
+### Option 3: Terminal Commands
+```bash
 cd frontend
-
-# 2. Install all dependencies (if not already installed)
 npm install
-
-# 3. Start the local development server
 npm run dev
 ```
 
-Open your browser and visit: **`http://localhost:5173`** (or `http://127.0.0.1:5173`)
+Open your browser and navigate to: **`http://localhost:5173`** (or `http://127.0.0.1:5173`).
 
 ---
 
-## 👥 Demo Logins & Role Accounts
+## 👥 Management Hierarchy & Demo Logins
 
-The application includes a **1-Click Demo Login bar** on both the **Login page** and the **Top Navigation Bar** inside the dashboard. You can switch between any role instantly:
+| Authority Level | User | Role | Designation Display | Key Scope |
+|---|---|---|---|---|
+| **Level 1 (Apex Command Authority)** | Dr. Vikram Seth | `INSTITUTION_ADMIN` | **Technical Director** | Full institution-wide command, whole-college dossiers, multi-year trends, report generation & archive administration |
+| **Level 2 (Operational Lead)** | Dr. H. J. Bhabha | `INSTITUTION_ADMIN` | **Executive Director & Principal** | Operational leadership, academic dossiers, faculty capital, placements, and department quality reports |
 
-| Role | Name | Department / Portfolio | Key Permissions & Features |
-|---|---|---|---|
-| **Staff / Faculty** | Dr. Rajesh Kumar | CSE | Data Entry, Publication Submissions, Grants, FDP, Profile Completion |
-| **HOD** | Dr. Ramesh Sharma | CSE | Department Approvals Queue (Approve / Reject / Correction), Faculty Roster |
-| **Dean (Academics)** | Dr. Anita Desai | Academic Affairs | Student Enrollment, Pass %, Syllabus Progress, Cross-Dept Matrix |
-| **Dean (Research)** | Dr. S. Mukherjee | Research & Innovation | ₹7.85 Cr Grants Pool, SCI/Scopus Trends, Patents, H-Index |
-| **Dean (Placement)** | Dr. R. Ramanujan | Career & Placement | 89.4% Placement rate, ₹44 LPA Highest Package, Recruiter stats |
-| **IQAC Member** | Prof. Priya Nair | Quality Assurance | Internal AAA Audits, Data Verification, Criterion Evidence review |
-| **IQAC Head** | Dr. M. S. Swaminathan | Quality Coordinator | 7 NAAC Criteria Attainment Grid, Quality Initiatives Tracker, AQAR |
-| **Director (Admin)** | Dr. Homi J. Bhabha | Executive Directorate | NIRF Forecast, Lock Academic Year (`FREEZE_ACADEMIC_YEAR`), Statutory Sign & Dispatch, Manage IQAC Head (`MANAGE_IQAC_HEAD`) |
-
-> **Default Demo Password:** `password123` (or simply use the 1-click buttons).
+> **Default Demo Password:** `password123`  
+> *(1-Click Login buttons are available directly on the login page)*
 
 ---
 
-## 🏛️ Key Features & Modules
+## 🏛️ Stage 4 Report Management & Generation Modules
 
-### 1. Multi-Role Institutional Dashboards
-- **Staff Dashboard**: Profile completion progress, quick submission cards, recent publications, and activity timeline.
-- **HOD Dashboard**: Department KPI summary, actionable Approvals Queue with evidence preview modals.
-- **Dean Dashboard**: Dynamically adapts for Academic, Research, and Placement portfolios with Recharts visualizations.
-- **IQAC Dashboard**: NAAC 7 Criteria Assessment & Readiness Grid, Internal AAA Audits schedule, and Quality Initiatives progress tracker.
-- **Director Executive Portal**: Institutional benchmarking, NIRF forecast, and special statutory governance controls.
+### 1. Report Center (`/director/reports`)
+- **Quick Generate Shortcuts**: 1-click access to the most frequently requested institutional dossiers (*Annual Institutional Report, Campus Placements, Academic Performance, Research Grants*).
+- **Report Filter & Search Bar**: Instant search by title, keyword, ID, or description, with dropdown filters for Category (*Institutional, Academic, Research, Placement, Faculty, Student, IQAC*) and Academic Year (*2026-27, 2025-26, 2024-25, 2023-24*).
+- **Favorites & Pinning**: Pin frequently used report templates to the top of the workspace.
+- **Recently Generated Dossiers**: Quick access feed to recently compiled statutory reports.
 
-### 2. Research Publications Module (`/publications`)
-- Filter by Indexing (SCI, Scopus, UGC-CARE), Status, and Academic Year.
-- Add Publication form with React Hook Form, DOI integration, and evidence file attachment.
-- Draft vs. Submit for HOD Verification workflow.
-- Evidence document viewer modal and CSV export.
+### 2. Multi-Step Report Generator (`/director/reports/generate`)
+- **5-Step Stepper Wizard**:
+  1. **Report Type**: Select from 20+ specialized institutional report templates.
+  2. **Scope**: Define Institutional-Wide or Branch/Department-specific scope.
+  3. **Filters & Parameters**: Configurable academic years, department targets, programs, and output format (*PDF or Spreadsheet CSV*).
+  4. **Live Dossier Preview**: Paper-like preview of tables, charts, findings, and executive signatures before formal generation.
+  5. **Simulated Synthesis Engine**: Animated progress tracking (*Data collection → Benchmark calculations → Chart rendering → Seal generation*).
 
-### 3. Sponsored Research & Grants (`/research`)
-- Project proposals, sanctioned grants, funding agency breakdown (DST, SERB, AICTE, Industry).
-- Official sanction order attachment and verification workflow.
+### 3. Official Report Dossier & Print View (`/director/reports/:reportId`)
+- **Institutional Letterhead Header (`ReportHeader`)**: Official college crest, autonomous affiliation, NAAC Grade A++ accreditation status, and official IQAC document seal.
+- **Executive Key Numbers & Benchmark Matrix**: Cross-department data tables, research grant sponsor breakdown, and placement CTC tiers.
+- **Rule-Based Key Observations**: Automated institutional intelligence findings.
+- **Official IQAC Attestation & Signatures (`ReportFooter`)**: Certified signature blocks for the IQAC Coordinator, Executive Director/Principal, and Technical Director.
+- **Export & Print Ready**:
+  - **Print / Save as PDF**: Clean A4 print layout that automatically hides sidebars, headers, and UI controls.
+  - **Export Excel / CSV**: Client-side structured spreadsheet download.
+  - **Shareable Unique Link**: 1-click URL copying with persistent unique report IDs (*e.g., `RPT-2026-000101`*).
 
-### 4. Faculty Development Programs (`/fdp`)
-- Log AICTE ATAL, NPTEL, Short-Term Training Programs (STTP), and Industrial Workshops.
-- Certificate upload and verification status.
-
-### 5. Student & Faculty Achievements (`/achievements`)
-- Track Hackathons (e.g. Smart India Hackathon), Fellowship awards, and professional recognitions.
-
-### 6. Academic Teaching Records (`/academic`)
-- Course outcome attainment, pass percentage, student feedback ratings (out of 5.0), and course file status.
-
-### 7. HOD Department Administration (`/hod/approvals`, `/hod/faculty`)
-- Full approval queue with tabs (All, Publication, Research, FDP, Achievement).
-- Actions: **Approve**, **Reject** (with reason), and **Request Correction**.
-- Faculty roster with detailed portfolio drawer and account suspend/activate controls.
-
-### 8. IQAC Quality & Audits (`/iqac/initiatives`, `/iqac/audits`, `/iqac/accreditation`)
-- Quality Enhancement Initiatives with milestone progress step updates.
-- Internal Academic & Administrative Audits (AAA) scheduler and observation tracker.
-- NAAC 7 Criteria breakdown with qualitative/quantitative metric compliance & evidence locker.
-
-### 9. Central Document Repository (`/documents`)
-- Institutional proof files, SSR documents, and meeting minutes.
-- Upload, preview, and simulated download support.
-
-### 10. Statutory Report Generator (`/reports/generate`, `/reports/view/:id`)
-- Pre-configured statutory templates:
-  - **AQAR Master Dossier (NAAC)**
-  - **NAAC Criterion 3 Research Dossier**
-  - **NIRF Engineering Data Tables**
-  - **Department Annual Performance Review**
-  - **Faculty PBAS / Self Appraisal Summary**
-- Printable Institutional Report with official letterhead, criteria tables, and signature blocks.
-
-### 11. Global Productivity Tools
-- **Global Search Modal (`Ctrl + K`)**: Instant cross-module search across publications, faculty, documents, and audits.
-- **Academic Year Global Switcher**: Persistent across all pages.
-- **In-App Notifications**: Real-time approval alerts and activity tracking.
+### 4. Report Generation Historical Ledger (`/director/reports/history`)
+- Historical audit ledger of all generated dossiers with metadata (*Report ID, Title, Scope, Category, Academic Year, Generated By, Timestamp, Status*).
+- Status filtering (*Active Generated vs. Archived Dossiers*).
+- 1-click actions: View, Download CSV, Print, and Archive.
 
 ---
 
-## 🛠️ Project Structure
+## 📁 Clean Codebase Architecture
 
 ```
-IQAC-Project/
-├── start-project.bat          # Windows 1-click startup script
-├── start-project.sh           # Linux/Mac startup script
-├── README.md                  # Master documentation
-└── frontend/
-    ├── package.json           # Dependencies and build scripts
-    ├── vite.config.js         # Vite configuration
-    ├── index.html             # HTML entry point with fonts & metadata
-    └── src/
-        ├── config/            # Roles, RBAC permissions, navigation, academic years
-        ├── context/           # AuthContext (session, roles) & ToastContext (notifications)
-        ├── data/              # Initial mock seed data (persisted to localStorage)
-        ├── services/          # Decoupled mock API service layer
-        ├── hooks/             # Custom hooks (useAuth, usePermissions, useSearch, etc.)
-        ├── components/        # Reusable UI components
-        │   ├── common/        # Buttons, Badges, Loaders, Avatars, Timelines
-        │   ├── forms/         # Input, Select, Textarea, FileInput, Checkbox
-        │   ├── tables/        # DataTable with sorting, search & pagination
-        │   ├── layout/        # Sidebar, TopNavbar, PageContainer, Card
-        │   ├── overlay/       # Modal, ConfirmModal, Drawer
-        │   ├── dashboard/     # StatCard, ChartCard, QuickActionCard
-        │   ├── charts/        # Recharts widgets (Bar, Line, Area, Pie)
-        │   ├── approval/      # ApprovalActionModal, EvidenceViewerModal
-        │   ├── documents/     # DocumentCard, DocumentUploadModal
-        │   └── notifications/ # NotificationDropdown
-        ├── layouts/           # AppLayout master container
-        ├── pages/             # Route-level page components
-        │   ├── auth/          # Login, Register, ForgotPassword
-        │   ├── dashboards/    # Staff, HOD, Dean, IQAC, Director Dashboards
-        │   ├── publications/  # PublicationList, AddPublication, PublicationDetails
-        │   ├── research/      # ResearchList, AddResearch
-        │   ├── fdp/           # FdpList, AddFdp
-        │   ├── achievements/  # AchievementList, AddAchievement
-        │   ├── academic/      # AcademicRecordList, AddAcademicRecord
-        │   ├── hod/           # DepartmentApprovals, FacultyManagement
-        │   ├── iqac/          # QualityInitiatives, InternalAudits, AccreditationCriteria
-        │   ├── documents/     # DocumentRepository
-        │   ├── reports/       # ReportGenerator, ReportViewer
-        │   ├── notifications/ # NotificationsList
-        │   ├── profile/       # UserProfile, Settings
-        │   └── common/        # NotFound, Unauthorized, GlobalSearchModal
-        └── routes/            # AppRouter, ProtectedRoute, RoleRoute
+frontend/src/
+├── config/
+│   ├── roles.js               # TECHNICAL_DIRECTOR & EXECUTIVE_DIRECTOR_PRINCIPAL definitions
+│   ├── permissions.js         # Granular report generation, archive, and view permissions
+│   ├── navigation.js          # Submenus for Institution, Analytics, and Reports
+│   └── reportConfig.js        # Report templates, categories, filter fields, and dossier sections
+├── context/
+│   └── AuthContext.jsx        # Session state, academic year selector, theme management
+├── data/
+│   ├── mockUsers.js           # Institutional user directory
+│   ├── mockAcademicYears.js   # 2026-27, 2025-26, 2024-25, 2023-24
+│   ├── mockInstitution.js     # Institutional structure & 12 departmental profiles
+│   ├── mockAnalytics.js       # Multi-year 5-pillar analytics dataset
+│   ├── mockReports.js         # Pre-seeded report history, metrics, and college letterhead
+│   └── mockNotifications.js   # Institutional notifications
+├── hooks/
+│   ├── useAuth.js             # Authentication hook
+│   ├── useInstitution.js      # Institution overview hook
+│   ├── useAnalytics.js        # Analytics hook
+│   └── useReports.js          # Report discovery, generation, history, and favorites hook
+├── services/
+│   ├── authService.js         # Authentication service
+│   ├── institutionService.js  # Institution & department queries
+│   ├── analyticsService.js    # Multi-pillar analytics queries
+│   ├── notificationService.js # Notifications service
+│   └── reportService.js       # Report synthesis, history, export, and archiving
+├── components/
+│   ├── common/                # Button, Card, Badge, Avatar, Input, Select, Loader
+│   ├── layout/                # Sidebar, TopNavbar, Breadcrumb, ProfileMenu, AcademicYearSelector
+│   ├── dashboard/             # StatCard, QuickActionCard, RecentActivity, AttentionCard
+│   ├── institution/           # InstitutionSummary, DepartmentTable, DepartmentCard, etc.
+│   ├── analytics/             # KPIAnalyticsCard, AnalyticsFilterBar, TrendLineChart, etc.
+│   └── reports/               # ReportCard, QuickReportCard, ReportFilterBar, ReportStepper,
+│                              # ReportHeader, ReportFooter, ReportPreview, ReportHistoryTable
+├── pages/
+│   ├── auth/                  # Login, ForgotPassword
+│   ├── institution/           # Dashboard, InstitutionOverview, Departments, DepartmentDetails,
+│                              # Profile, Notifications, Settings
+│   ├── analytics/             # AnalyticsOverview, AcademicAnalytics, StudentAnalytics,
+│                              # FacultyAnalytics, ResearchAnalytics, PublicationAnalytics,
+│                              # PlacementAnalytics, DepartmentComparison
+│   └── reports/               # ReportCenter, GenerateReport, ReportHistory, ReportDetails
+└── routes/
+    ├── AppRoutes.jsx          # Route hierarchy with Stages 1, 2, 3, and 4
+    ├── ProtectedRoute.jsx     # Authentication guard
+    └── RoleRoute.jsx          # INSTITUTION_ADMIN guard
 ```
-
----
-
-## ⚙️ Future Backend Connection
-The architecture strictly decouples UI components from storage via the `src/services/` layer. To connect a live backend (Node.js, Express, Spring, or Django):
-1. Replace simulated calls in `src/services/api.js` with standard Axios HTTP requests (`axios.get`, `axios.post`, etc.).
-2. The UI components and pages require zero refactoring.
