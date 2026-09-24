@@ -13,8 +13,10 @@ import {
   ChevronDown,
   X,
   Layers,
+  ShieldCheck,
 } from 'lucide-react';
-import { DIRECTOR_NAV_ITEMS } from '../../config/navigation';
+import { getNavItemsForUser } from '../../config/navigation';
+import { useAuth } from '../../context/AuthContext';
 
 const ICON_MAP = {
   LayoutDashboard,
@@ -24,6 +26,7 @@ const ICON_MAP = {
   Bell,
   Settings,
   Layers,
+  ShieldCheck,
 };
 
 export const Sidebar = ({
@@ -33,9 +36,13 @@ export const Sidebar = ({
   onCloseMobile = () => {},
 }) => {
   const location = useLocation();
+  const { user } = useAuth();
   const [openSubmenus, setOpenSubmenus] = useState({
+    iqac: true,
     institution: true,
   });
+
+  const navItems = getNavItemsForUser(user);
 
   const toggleSubmenu = (id) => {
     setOpenSubmenus((prev) => ({
@@ -84,12 +91,18 @@ export const Sidebar = ({
 
       {/* Navigation List */}
       <nav className="flex-1 overflow-y-auto p-3 space-y-1 custom-scroll" aria-label="Main Navigation">
-        {DIRECTOR_NAV_ITEMS.map((item) => {
+        {navItems.map((item) => {
           const IconComponent = ICON_MAP[item.icon] || LayoutDashboard;
           const hasChildren = item.children && item.children.length > 0;
           const isParentActive =
             hasChildren &&
-            item.children.some((child) => location.pathname === child.path || (child.path !== '/director/institution' && location.pathname.startsWith(child.path)));
+            item.children.some(
+              (child) =>
+                location.pathname === child.path ||
+                (child.path !== '/director/institution' &&
+                  child.path !== '/iqac/dashboard' &&
+                  location.pathname.startsWith(child.path))
+            );
           const isSubmenuOpen = openSubmenus[item.id] !== false;
 
           if (hasChildren && !collapsed) {

@@ -1,0 +1,15 @@
+export { DepartmentDashboard } from './DepartmentDashboard';
+export { DepartmentStaff } from './DepartmentStaff';
+export { StaffDetails } from './StaffDetails';
+export { DepartmentReviewCenter } from './DepartmentReviewCenter';
+export { DepartmentSubmissionReview } from './DepartmentSubmissionReview';
+export { DepartmentEvidence } from './DepartmentEvidence';
+export { DepartmentEvidenceDetails } from './DepartmentEvidenceDetails';
+export { DepartmentActivities } from './DepartmentActivities';
+export { DepartmentMeetings } from './DepartmentMeetings';
+export { DepartmentActionItems } from './DepartmentActionItems';
+export { DepartmentQuality } from './DepartmentQuality';
+export { DepartmentCompliance } from './DepartmentCompliance';
+export { DepartmentAccreditation } from './DepartmentAccreditation';
+export { DepartmentImprovementPlans } from './DepartmentImprovementPlans';
+export { DepartmentNotifications } from './DepartmentNotifications';

@@ -1,0 +1,78 @@
+import React, { useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { deanPortalService } from '../../services/deanPortalService';
+import { DEAN_PERMISSIONS, hasDeanPermission } from '../../config/deanPortalConfig';
+import { Loader } from '../../components/common/Loader';
+import { EmptyState } from '../../components/common/EmptyState';
+import { Card } from '../../components/common/Card';
+
+const inputCls = 'px-3 py-2 rounded-lg border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500';
+
+export const DeanImprovementPlans = () => {
+  const { user } = useAuth();
+  const [params, setParams] = useSearchParams();
+  const [items, setItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const statusFilter = params.get('status') || 'ALL';
+  const set = (k, v) => {
+    const next = new URLSearchParams(params);
+    if (!v || v === 'ALL') next.delete(k); else next.set(k, v);
+    setParams(next, { replace: true });
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    if (!user) return undefined;
+    setLoading(true);
+    setError(null);
+    deanPortalService.getImprovementPlans(statusFilter !== 'ALL' ? { status: statusFilter } : {}, user)
+      .then((res) => { if (!cancelled) setItems(res?.data || []); })
+      .catch((err) => { if (!cancelled) setError(err?.message || 'Failed to load improvement plans.'); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [user, statusFilter]);
+
+  if (!hasDeanPermission(user, DEAN_PERMISSIONS.DEAN_IMPROVEMENT_VIEW)) return <div className="bg-rose-50 border border-rose-200 text-rose-800 rounded-xl p-4 text-sm font-medium">You do not have permission to view improvement plans.</div>;
+  if (loading) return <Loader message="Loading improvement plans..." />;
+  if (error) return <div className="bg-rose-50 border border-rose-200 text-rose-800 rounded-xl p-4 text-sm font-medium">{error}</div>;
+
+  return (
+    <div className="space-y-6">
+      <div className="pb-4 border-b border-slate-200/80">
+        <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Improvement Plans</h1>
+        <p className="text-xs text-slate-500 font-medium mt-0.5">Continuous improvement tracking across your assigned scope (monitoring only)</p>
+      </div>
+      <Card className="p-4 sm:p-6">
+        <select value={statusFilter} onChange={(e) => set('status', e.target.value)} className={`${inputCls} w-full sm:max-w-xs`}>
+          {['ALL', 'DRAFT', 'IN_PROGRESS', 'ON_TRACK', 'AT_RISK', 'OVERDUE', 'COMPLETED', 'CLOSED'].map((s) => <option key={s} value={s}>{s}</option>)}
+        </select>
+      </Card>
+      <Card className="p-4 sm:p-6 space-y-3">
+        <h3 className="text-sm font-bold text-slate-900">Plans ({(items || []).length})</h3>
+        {(items || []).length === 0 ? <EmptyState title="No plans" description="No improvement plans match the current filter." /> : (
+          <div className="overflow-x-auto rounded-xl border border-slate-200/80">
+            <table className="w-full text-left text-xs">
+              <thead><tr className="bg-slate-50/80 text-slate-600 border-b border-slate-200 font-bold uppercase tracking-wider">
+                <th className="p-3">Title</th><th className="p-3 text-center">Dept</th><th className="p-3 text-center">Status</th><th className="p-3 text-center">Target</th><th className="p-3 text-right">Action</th>
+              </tr></thead>
+              <tbody className="divide-y divide-slate-100 font-medium">
+                {(items || []).map((p) => (
+                  <tr key={p.id} className="hover:bg-slate-50/80">
+                    <td className="p-3 font-bold text-slate-900 max-w-xs truncate">{p.title || p.id}</td>
+                    <td className="p-3 text-center">{p.departmentCode || p.deptCode}</td>
+                    <td className="p-3 text-center">{p.status}</td>
+                    <td className="p-3 text-center">{p.targetDate || p.dueDate || '—'}</td>
+                    <td className="p-3 text-right"><Link to={`/dean/improvement-plans/${p.id}`} className="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-bold">View</Link></td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+};

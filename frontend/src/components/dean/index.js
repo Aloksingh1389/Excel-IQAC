@@ -1,0 +1,9 @@
+export { DepartmentScopeSelector } from './DepartmentScopeSelector';
+export { DeanKpiGrid } from './DeanKpiGrid';
+export { DeanAttentionList } from './DeanAttentionList';
+export { DeanDepartmentTable } from './DeanDepartmentTable';
+export { DepartmentHealthCard } from './DepartmentHealthCard';
+export { DepartmentComparisonTable } from './DepartmentComparisonTable';
+export { DepartmentComparisonChart } from './DepartmentComparisonChart';
+export { DeanDepartmentSummary } from './DeanDepartmentSummary';
+export { DeanQuickActions } from './DeanQuickActions';

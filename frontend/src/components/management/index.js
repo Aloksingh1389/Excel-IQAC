@@ -1,0 +1,13 @@
+export { ManagementKpiGrid } from './ManagementKpiGrid';
+export { ExecutiveSummaryCard } from './ExecutiveSummaryCard';
+export { InstitutionHealthOverview } from './InstitutionHealthOverview';
+export { DepartmentPerformanceTable } from './DepartmentPerformanceTable';
+export { DepartmentComparisonChart } from './DepartmentComparisonChart';
+export { ManagementDepartmentHealthCard } from './ManagementDepartmentHealthCard';
+export { ManagementAttentionList } from './ManagementAttentionList';
+export { QualityTrendChart } from './QualityTrendChart';
+export { ComplianceOverview } from './ComplianceOverview';
+export { AccreditationOverview } from './AccreditationOverview';
+export { ExecutiveDecisionPanel } from './ExecutiveDecisionPanel';
+export { ManagementQuickActions } from './ManagementQuickActions';
+export { ManagementStatusBadge } from './ManagementStatusBadge';

@@ -1,9 +1,12 @@
 // Institutional Role & Designation Definitions
 
 export const ROLES = {
+  TECHNICAL_DIRECTOR: 'TECHNICAL_DIRECTOR',
+  EXECUTIVE_DIRECTOR_PRINCIPAL: 'EXECUTIVE_DIRECTOR_PRINCIPAL',
   INSTITUTION_ADMIN: 'INSTITUTION_ADMIN',
   IQAC_HEAD: 'IQAC_HEAD',
   IQAC_MEMBER: 'IQAC_MEMBER',
+  IQAC_COORDINATOR: 'IQAC_COORDINATOR',
   DEAN: 'DEAN',
   HOD: 'HOD',
   STAFF: 'STAFF',
@@ -14,6 +17,7 @@ export const DESIGNATIONS = {
   EXECUTIVE_DIRECTOR_PRINCIPAL: 'EXECUTIVE_DIRECTOR_PRINCIPAL',
   PRINCIPAL: 'EXECUTIVE_DIRECTOR_PRINCIPAL',
   DIRECTOR: 'TECHNICAL_DIRECTOR',
+  IQAC_HEAD: 'IQAC_HEAD',
   IQAC_COORDINATOR: 'IQAC_COORDINATOR',
   DEAN_ACADEMICS: 'DEAN_ACADEMICS',
   DEAN_RESEARCH: 'DEAN_RESEARCH',
@@ -31,14 +35,16 @@ export const getDesignationDisplay = (designation, role) => {
   if (
     designation === DESIGNATIONS.TECHNICAL_DIRECTOR ||
     designation === 'TECHNICAL_DIRECTOR' ||
-    designation === 'DIRECTOR'
+    designation === 'DIRECTOR' ||
+    role === ROLES.TECHNICAL_DIRECTOR
   ) {
     return 'Technical Director';
   }
   if (
     designation === DESIGNATIONS.EXECUTIVE_DIRECTOR_PRINCIPAL ||
     designation === 'EXECUTIVE_DIRECTOR_PRINCIPAL' ||
-    designation === 'PRINCIPAL'
+    designation === 'PRINCIPAL' ||
+    role === ROLES.EXECUTIVE_DIRECTOR_PRINCIPAL
   ) {
     return 'Executive Director & Principal';
   }
@@ -46,7 +52,10 @@ export const getDesignationDisplay = (designation, role) => {
     return 'Technical Director';
   }
   if (role === ROLES.IQAC_HEAD) {
-    return 'IQAC Coordinator / Head';
+    return 'IQAC Head / Director';
+  }
+  if (role === ROLES.IQAC_COORDINATOR || designation === 'IQAC_COORDINATOR') {
+    return 'Department IQAC Coordinator';
   }
   if (role === ROLES.IQAC_MEMBER) {
     return 'IQAC Committee Member';
@@ -55,7 +64,7 @@ export const getDesignationDisplay = (designation, role) => {
     return 'Dean';
   }
   if (role === ROLES.HOD) {
-    return 'Head of Department';
+    return 'Head of Department (HOD)';
   }
   if (role === ROLES.STAFF) {
     return 'Faculty / Staff';
